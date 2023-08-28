@@ -1,10 +1,10 @@
 <?php
 
-class ProductController
+class RoomController
 {
     private $gateway;
 
-    public function __construct(ProductGateway $gateway)
+    public function __construct(RoomGateway $gateway)
     {
         $this->gateway = $gateway;
     }
@@ -20,15 +20,15 @@ class ProductController
 
     private function processResourceRequest(string $method, string $id): void
     {
-        $product = $this->gateway->get($id);
-        if (!$product) {
+        $room = $this->gateway->get($id);
+        if (!$room) {
             http_response_code(404);
-            echo json_encode(["message" => "Product not found!"]);
+            echo json_encode(["message" => "Room not found!"]);
             return;
         }
         switch ($method) {
             case "GET":
-                echo json_encode($product);
+                echo json_encode($room);
                 break;
             case "PATCH":
                 $data = (array) json_decode(file_get_contents('php://input'), true);
@@ -38,16 +38,16 @@ class ProductController
                     echo json_encode(["errors" => $errors]);
                     break;
                 }
-                $rows = $this->gateway->update($product, $data);
+                $rows = $this->gateway->update($room, $data);
                 echo json_encode([
-                    "message" => "Product $id updated.",
+                    "message" => "room $id updated.",
                     "rows" => $rows,
                 ]);
                 break;
             case "DELETE":
                 $rows = $this->gateway->delete($id);
                 echo json_encode([
-                    "message" => "Product $id deleted.",
+                    "message" => "room $id deleted.",
                     "rows" => $rows,
                 ]);
                 break;
@@ -57,7 +57,7 @@ class ProductController
                     $this->gateway->deleteImage($id);
                     $imageUploadResult = $this->gateway->uploadImage($id, $_FILES['image']);
                     if ($imageUploadResult) {
-                        $product['image_path'] = $imageUploadResult;
+                        $room['image_path'] = $imageUploadResult;
                     }
                 } else {
                     http_response_code(422);
@@ -65,7 +65,7 @@ class ProductController
                     exit;
                 }
                 echo json_encode([
-                    "message" => "Product $id updated.",
+                    "message" => "room $id updated.",
 
                 ]);
                 break;
@@ -94,7 +94,7 @@ class ProductController
                 $id = $this->gateway->create($data);
                 http_response_code(201);
                 echo json_encode([
-                    "message" => "Product added.",
+                    "message" => "room added.",
                     "id" => $id,
                 ]);
                 break;

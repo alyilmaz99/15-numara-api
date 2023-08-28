@@ -1,6 +1,6 @@
 <?php
 
-class ProductGateway
+class RoomGateway
 {
     private PDO $connection;
     public function __construct(Database $database)
@@ -10,7 +10,7 @@ class ProductGateway
 
     public function getAll(): array
     {
-        $sql = "SELECT * FROM product";
+        $sql = "SELECT * FROM room";
         $stmt = $this->connection->query($sql);
 
         $data = [];
@@ -24,7 +24,7 @@ class ProductGateway
     }
     public function create(array $data): string
     {
-        $sql = "INSERT INTO product (name,size,is_available)VALUES (:name, :size, :is_available)";
+        $sql = "INSERT INTO room (name,size,is_available)VALUES (:name, :size, :is_available)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(":name", $data["name"], PDO::PARAM_STR);
         $stmt->bindValue(":size", $data['size'] ?? 0, PDO::PARAM_INT);
@@ -35,7 +35,7 @@ class ProductGateway
     }
     public function get(string $id)
     {
-        $sql = "SELECT * FROM product WHERE id=:id";
+        $sql = "SELECT * FROM room WHERE id=:id";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -52,7 +52,7 @@ class ProductGateway
 
     public function update(array $current, array $new): int
     {
-        $sql = "UPDATE product SET name= :name, size= :size, is_available= :is_available WHERE id = :id";
+        $sql = "UPDATE room SET name= :name, size= :size, is_available= :is_available WHERE id = :id";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(":name", $new["name"] ?? $current["name"], PDO::PARAM_STR);
@@ -65,7 +65,7 @@ class ProductGateway
 
     public function delete(string $id): int
     {
-        $sql = "DELETE FROM product WHERE id = :id";
+        $sql = "DELETE FROM room WHERE id = :id";
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
@@ -81,7 +81,7 @@ class ProductGateway
         $destination = $uploadDir . $fileName;
         if (move_uploaded_file($file['tmp_name'], $destination)) {
 
-            $sql = "UPDATE product SET image_path = :image WHERE id = :id";
+            $sql = "UPDATE room SET image_path = :image WHERE id = :id";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":image", $destination, PDO::PARAM_STR);
             $stmt->bindValue(":id", $id, PDO::PARAM_INT);
@@ -94,7 +94,7 @@ class ProductGateway
     }
     public function deleteImage($id)
     {
-        $sql = "SELECT * FROM product WHERE id=:id";
+        $sql = "SELECT * FROM room WHERE id=:id";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
