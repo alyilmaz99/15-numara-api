@@ -1,4 +1,7 @@
 <?php
+namespace Api;
+
+use PDO;
 
 class Database
 {

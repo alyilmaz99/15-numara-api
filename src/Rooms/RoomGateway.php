@@ -1,4 +1,8 @@
 <?php
+namespace Api\Rooms;
+
+use Api\Database;
+use PDO;
 
 class RoomGateway
 {

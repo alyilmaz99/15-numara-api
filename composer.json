@@ -1,0 +1,15 @@
+{
+  "name": "aly/15-numara-api",
+  "authors": [
+    {
+      "name": "alyilmaz99",
+      "email": "aliyilmaz9977@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Api\\": "src/"
+    }
+  },
+  "require": {}
+}

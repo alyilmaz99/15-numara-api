@@ -1,4 +1,8 @@
 <?php
+namespace Api;
+
+use ErrorException;
+use Throwable;
 
 class ErrorHandler
 {
